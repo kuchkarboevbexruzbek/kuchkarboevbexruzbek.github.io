@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <radialGradient id="body-grad" cx="40%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#444" />
+      <stop offset="60%" stop-color="#111" />
+      <stop offset="100%" stop-color="#000" />
+    </radialGradient>
+    <radialGradient id="belly-grad" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#fff" />
+      <stop offset="80%" stop-color="#eee" />
+      <stop offset="100%" stop-color="#ccc" />
+    </radialGradient>
+    <linearGradient id="beak-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffcc00" />
+      <stop offset="100%" stop-color="#ff9900" />
+    </linearGradient>
+  </defs>
+
+  <!-- Left Foot -->
+  <path fill="url(#beak-grad)" stroke="#cc7700" stroke-width="3" d="M 120 420 C 80 430, 40 400, 50 370 C 60 340, 110 350, 160 380 Z" />
+
+  <!-- Right Foot -->
+  <path fill="url(#beak-grad)" stroke="#cc7700" stroke-width="3" d="M 380 420 C 420 430, 460 400, 450 370 C 440 340, 390 350, 340 380 Z" />
+
+  <!-- Main Body -->
+  <path fill="url(#body-grad)" stroke="#000" stroke-width="4" d="M 250 40 C 160 40, 130 140, 130 240 C 130 350, 170 440, 250 440 C 330 440, 370 350, 370 240 C 370 140, 340 40, 250 40 Z" />
+
+  <!-- Wings -->
+  <path fill="#111" stroke="#000" stroke-width="3" d="M 140 220 C 100 260, 90 340, 120 380 C 140 360, 150 300, 170 250 Z" />
+  <path fill="#111" stroke="#000" stroke-width="3" d="M 360 220 C 400 260, 410 340, 380 380 C 360 360, 350 300, 330 250 Z" />
+
+  <!-- White Belly -->
+  <path fill="url(#belly-grad)" stroke="#bbb" stroke-width="2" d="M 250 120 C 180 120, 150 200, 150 280 C 150 380, 190 420, 250 420 C 310 420, 350 380, 350 280 C 350 200, 320 120, 250 120 Z" />
+
+  <!-- Face Patch (White Eyes Area) -->
+  <path fill="#fff" d="M 250 100 C 190 100, 170 150, 180 190 C 190 220, 220 210, 250 210 C 280 210, 310 220, 320 190 C 330 150, 310 100, 250 100 Z" />
+
+  <!-- Eyes (Left) -->
+  <circle cx="215" cy="165" r="18" fill="#fff" stroke="#333" stroke-width="2" />
+  <circle cx="218" cy="165" r="8" fill="#000" />
+  <circle cx="220" cy="162" r="3" fill="#fff" />
+
+  <!-- Eyes (Right) -->
+  <circle cx="285" cy="165" r="18" fill="#fff" stroke="#333" stroke-width="2" />
+  <circle cx="282" cy="165" r="8" fill="#000" />
+  <circle cx="284" cy="162" r="3" fill="#fff" />
+
+  <!-- Beak -->
+  <path fill="url(#beak-grad)" stroke="#cc7700" stroke-width="3" d="M 210 180 C 210 180, 250 220, 290 180 C 290 180, 310 210, 250 235 C 190 210, 210 180, 210 180 Z" />
+</svg>
