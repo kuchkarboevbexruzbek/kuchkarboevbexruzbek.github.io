@@ -78,7 +78,7 @@
   const game = document.querySelector('.idea-game');
   if (game) { const star = game.querySelector('.game-star'), score = game.querySelector('.game-score'), status = game.closest('.experiment').querySelector('.game-status'), reset = game.closest('.experiment').querySelector('.lab-reset'); let points = 0; const move = () => { star.style.left = `${12 + Math.random() * 70}%`; star.style.top = `${12 + Math.random() * 68}%`; }; const restart = () => { points = 0; score.textContent = '0 / 6'; status.textContent = 'Boshlashga tayyor.'; star.hidden = false; game.classList.remove('game-won'); move(); }; star.addEventListener('click', () => { points += 1; score.textContent = `${points} / 6`; if (points >= 6) { game.classList.add('game-won'); status.textContent = 'Zo‘r! Sahnani jonlantirdingiz.'; star.hidden = true; } else { status.textContent = 'Yana bittasi!'; move(); }}); reset.addEventListener('click', restart); move(); }
   const processSection = document.querySelector('.process');
-  if (processSection) new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) processSection.classList.add('steps-active'); }), { threshold: .25 }).observe(processSection);
+  if (processSection) new IntersectionObserver(es => es.forEach(e => processSection.classList.toggle('steps-active', e.isIntersecting)), { threshold: .25 }).observe(processSection);
   const portrait = document.querySelector('.about-photo');
   if (portrait && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
     portrait.addEventListener('pointermove', event => {
@@ -93,4 +93,15 @@
   if (telegram && !telegram.querySelector('.telegram-plane')) telegram.insertAdjacentHTML('beforeend', '<span class="telegram-plane" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m3 11 18-8-7 18-3-7zM11 14l4-4"/></svg></span>');
   const instagram = document.querySelector('.contact .instagram');
   if (instagram && !instagram.querySelector('img')) instagram.insertAdjacentHTML('afterbegin', '<img src="/assets/bexruzbek-about-v2.png" alt="" width="30" height="30">');
+  if (!document.querySelector('script[data-three-demo]')) {
+    const styles = document.createElement('link');
+    styles.rel = 'stylesheet';
+    styles.href = '/boy-demo.css';
+    document.head.append(styles);
+    const script = document.createElement('script');
+    script.type = 'module';
+    script.src = '/boy-demo.js';
+    script.dataset.threeDemo = 'true';
+    document.body.append(script);
+  }
 })();
