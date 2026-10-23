@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kuchkarboevbexruzbek.github.io/sitemap.xml
