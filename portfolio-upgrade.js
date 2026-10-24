@@ -1,6 +1,7 @@
 (() => {
   'use strict';
   const one=s=>document.querySelector(s);
+  const otherFieldStyle=document.createElement('style');otherFieldStyle.textContent='.brief-options:has(input[value="other"]:checked) .brief-custom-field[hidden]{display:block!important;animation:briefTopicIn .36s cubic-bezier(.2,.8,.2,1)}@keyframes briefTopicIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:translateX(0)}}';document.head.append(otherFieldStyle);
   let lang='en'; try {lang=localStorage.getItem('portfolio-language')==='uz'?'uz':'en';}catch{}
   let dictionary=new Map();
   const words=(en,uz)=>lang==='uz'?uz:en;
