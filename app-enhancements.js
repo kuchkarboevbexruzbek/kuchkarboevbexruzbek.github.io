@@ -93,15 +93,4 @@
   if (telegram && !telegram.querySelector('.telegram-plane')) telegram.insertAdjacentHTML('beforeend', '<span class="telegram-plane" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m3 11 18-8-7 18-3-7zM11 14l4-4"/></svg></span>');
   const instagram = document.querySelector('.contact .instagram');
   if (instagram && !instagram.querySelector('img')) instagram.insertAdjacentHTML('afterbegin', '<img src="/assets/bexruzbek-about-v2.png" alt="" width="30" height="30">');
-  if (!document.querySelector('script[data-three-demo]')) {
-    const styles = document.createElement('link');
-    styles.rel = 'stylesheet';
-    styles.href = '/boy-demo.css';
-    document.head.append(styles);
-    const script = document.createElement('script');
-    script.type = 'module';
-    script.src = '/boy-demo.js';
-    script.dataset.threeDemo = 'true';
-    document.body.append(script);
-  }
 })();
