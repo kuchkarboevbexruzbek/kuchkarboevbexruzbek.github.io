@@ -1,0 +1,74 @@
+.drive-hud[hidden], .drive-compass[hidden], .drive-controls[hidden],
+.drive-wheel[hidden], .drive-settings[hidden] { display: none; }
+.drive-hud, .drive-controls {
+  position: fixed;
+  inset: 0;
+  z-index: 7;
+  pointer-events: none;
+  color: white;
+  font: 700 14px/1.2 Nunito, Arial, sans-serif;
+}
+.drive-compass, .drive-speed, .drive-pedals button {
+  background: rgba(10, 27, 45, .82);
+  border: 1px solid #ffffff55;
+  box-shadow: 0 3px 14px #0004;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+.drive-compass, .drive-speed {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 16px;
+}
+.drive-compass { top: max(12px, env(safe-area-inset-top)); padding: 7px 15px 7px 8px; }
+.drive-compass strong, .drive-compass small { display: block; white-space: nowrap; }
+.drive-compass small { font-size: 12px; color: #c9dccf; margin-bottom: 3px; }
+.drive-dial {
+  display: grid; place-items: center; width: 42px; height: 42px;
+  border-radius: 50%; border: 1px solid #b8eaa2; background: #123236;
+}
+.drive-needle {
+  display: block; width: 22px; height: 28px; background: #cbff83;
+  clip-path: polygon(50% 0, 94% 44%, 65% 42%, 65% 94%, 35% 94%, 35% 42%, 6% 44%);
+}
+.drive-speed {
+  bottom: calc(9px + env(safe-area-inset-bottom)); padding: 7px 12px;
+  font-variant-numeric: tabular-nums; font-size: 11px; color: #c9ff91; gap: 5px;
+}
+.drive-speed strong { color: white; font-size: 22px; }
+.drive-speed span { color: #d2dfe6; }
+.drive-controls button {
+  pointer-events: auto; touch-action: none; -webkit-user-select: none; user-select: none;
+  -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; color: white;
+}
+.drive-wheel {
+  --size: clamp(90px, 29vmin, 145px);
+  position: absolute; bottom: calc(14px + env(safe-area-inset-bottom));
+  left: calc(16px + env(safe-area-inset-left)); width: var(--size); height: var(--size);
+  display: grid; place-items: center; border-radius: 50%;
+  border: 8px solid #253544; box-shadow: 0 0 0 2px #b9c5c7, inset 0 0 0 2px #83979e, 0 4px 12px #0006;
+  background: #10203270; transform: rotate(var(--turn, 0deg));
+}
+.drive-wheel::before, .drive-wheel::after, .drive-wheel i { position: absolute; content: ''; }
+.drive-wheel::before { inset: 44% 0 0; background: #435866; clip-path: polygon(0 0,50% 20%,100% 0,100% 15%,60% 39%,55% 100%,45% 100%,40% 39%,0 15%); }
+.drive-wheel::after { top: -7px; width: 9%; height: 8px; background: #cbff83; border-radius: 2px; }
+.drive-wheel i { width: 23%; height: 23%; border-radius: 50%; background: #354954; border: 1px solid #9babad; }
+.drive-pedals {
+  position: absolute; right: calc(16px + env(safe-area-inset-right));
+  bottom: calc(14px + env(safe-area-inset-bottom)); display: flex; align-items: end; gap: 9px;
+}
+.drive-pedals button { border-radius: 15px; font: inherit; min-width: 52px; padding: 6px 10px; }
+.drive-pedals .drive-gas { height: clamp(64px, 20vmin, 90px); color: #cbff83; }
+.drive-pedals .drive-brake { height: clamp(48px, 14vmin, 66px); color: #ffd6c8; }
+.drive-pedals button.held { background: #365661; transform: translateY(2px); }
+.drive-settings small { grid-column: 1 / -1; }
+.drive-settings small:empty { display: none; }
+@media (orientation: landscape) and (max-height: 540px) {
+  .drive-touch .touch-buttons .list { bottom: calc(30px + env(safe-area-inset-bottom)); min-height: 52px; }
+  .drive-touch .touch-buttons .list button { height: 44px; padding-inline: 10px; font-size: 24px; }
+  .drive-touch .menu-trigger, .drive-touch .map-trigger { right: env(safe-area-inset-right); }
+}

@@ -2,7 +2,7 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Bexruzbek</title>
 
     <meta name="description" content="Bexruzbek Kuchkarboev — interaktiv 3D portfolio">
@@ -42,9 +42,10 @@
     
 
     
-  <script type="module" crossorigin src="/3dworld/assets/index-dqk2MRTb.js?v=certificates-3"></script>
+  <script type="module" crossorigin src="/3dworld/assets/index-dqk2MRTb.js?v=coastal-driving-1"></script>
   <link rel="modulepreload" crossorigin href="/3dworld/assets/dist-BiW6BJVu.js">
   <link rel="stylesheet" crossorigin href="/3dworld/assets/index-Le56nPbm.css">
+  <link rel="stylesheet" href="driving.css">
 </head>
 <body>
 
@@ -57,6 +58,20 @@
     <div class="game">
 
         <canvas class="js-canvas"></canvas>
+        <div class="drive-hud" hidden>
+            <div class="drive-compass" hidden>
+                <span class="drive-dial" aria-hidden="true"><i class="drive-needle"></i></span>
+                <div><small></small><strong></strong></div>
+            </div>
+            <div class="drive-speed"><span>Tezlik</span> <strong>0</strong> km/soat</div>
+        </div>
+        <div class="drive-controls" role="group" aria-label="Mashinani boshqarish" hidden>
+            <button class="drive-wheel" type="button" aria-label="Burish uchun rulni aylantiring"><i></i></button>
+            <div class="drive-pedals">
+                <button class="drive-brake" type="button">Tormoz</button>
+                <button class="drive-gas" type="button">Gaz</button>
+            </div>
+        </div>
 
         <!-- Touch buttons -->
         <div class="js-touch-buttons touch-buttons">
@@ -231,6 +246,12 @@
                         <div class="js-content content options-content">
                             <div class="content-inner">
                                 <div class="title">Options</div>
+                                <div class="world-preferences drive-settings" hidden>
+                                    <label for="drive-mode">Boshqaruv</label>
+                                    <select id="drive-mode"><option value="wheel">Ekrandagi rul</option><option value="gyro">Giroskop</option></select>
+                                    <span>Ekran</span><button type="button" class="button">Gorizontal o‘ynash</button>
+                                    <small role="status"></small>
+                                </div>
                                 <div class="world-preferences"><label for="camera-mode">Kamera</label><button class="button js-camera-toggle" id="camera-mode" type="button">Orqadan</button><label for="music-select">Musiqa</label><select class="js-music-select" id="music-select" aria-label="Musiqani tanlash"><option>Sayohatni boshlang</option></select></div><table class="options">
                                     <tbody>
                                         <tr>
