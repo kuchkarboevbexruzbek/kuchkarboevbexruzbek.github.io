@@ -191,14 +191,16 @@ function buildCourse(game,T) {
     timber.box({...start,x,z},.48,5.2,.5,deckY,'#664839');
     accents.box({...start,x,z},.52,.18,.54,deckY+4.6,'#ffda81');
   }
-  timber.box(start,WIDTH+1,.66,.55,deckY+4.97,'#283d3a');
+  const gantry=new T.Mesh(new T.Box(WIDTH+1,.66,.55),
+    new T.Glass({color:0xc8cbd8,roughness:.38,metalness:0,transmission:.78,thickness:.28,ior:1.35}));
+  gantry.position.set(start.x,deckY+5.30,start.z);gantry.rotation.y=Math.PI/2;group.add(gantry);
   // Both faces of the timing gantry remain legible on approach.
   const sign=document.createElement('canvas');sign.width=640;sign.height=80;
-  const ink=sign.getContext('2d');ink.fillStyle='#173b36';ink.fillRect(0,0,640,80);
-  ink.fillStyle='#f9df9d';ink.textAlign='center';ink.textBaseline='middle';ink.font='bold 48px sans-serif';
+  const ink=sign.getContext('2d');ink.clearRect(0,0,640,80);
+  ink.fillStyle='#ffffff';ink.shadowColor='#141520';ink.shadowBlur=3;ink.textAlign='center';ink.textBaseline='middle';ink.font='bold 48px sans-serif';
   ink.fillText('BANDARGOH',320,41);
   const signTexture=new T.CanvasTexture(sign);signTexture.colorSpace=T.srgb;
-  const lettering=new T.Basic({map:signTexture});
+  const lettering=new T.Basic({map:signTexture,transparent:true,depthWrite:false});
   for(const side of [-1,1]) {
     const plate=new T.Mesh(new T.Plane(4.8,.60),lettering);
     plate.position.set(start.x+side*.284,deckY+5.30,start.z);
