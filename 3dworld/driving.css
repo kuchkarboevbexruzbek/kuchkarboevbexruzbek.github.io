@@ -72,3 +72,41 @@
   .drive-touch .touch-buttons .list button { height: 44px; padding-inline: 10px; font-size: 24px; }
   .drive-touch .menu-trigger, .drive-touch .map-trigger { right: env(safe-area-inset-right); }
 }
+
+.device-picker {
+  box-sizing: border-box; width: min(430px, calc(100vw - 32px)); max-height: calc(100dvh - 24px);
+  margin: auto; padding: clamp(20px,5vmin,36px); border: 1px solid #98b9aa70;
+  border-radius: 22px; background: #102b2c; color: #f5f4e7;
+  box-shadow: 0 22px 90px #06141bac; font: 700 16px/1.45 Nunito, sans-serif;
+}
+.device-picker::backdrop {background: #0a1c25be; backdrop-filter: blur(7px);}
+.device-picker h1 {font: 900 clamp(24px,5vmin,32px)/1.13 Nunito,sans-serif; margin: 0 0 18px;}
+.device-options {display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+.device-options button {
+  display:grid; justify-items:start; gap:4px; text-align:left; min-height:86px; padding:14px;
+  border-radius:12px; border:1px solid #93b9a6; background:#203e3b; color:#f9f6e9;
+  font: 900 18px/1.25 Nunito,sans-serif; cursor:pointer;
+}
+.device-options button:hover,.device-options button:focus-visible {background:#cdf596;color:#163431;}
+.device-options small {font: 700 12px/1.35 Nunito,sans-serif;}
+.drive-pedals .drive-reverse {height:clamp(44px,13vmin,60px);color:#ffdda0;}
+.harbour-race {
+  position:absolute;top:max(10px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);
+  display:grid;grid-template-columns:1fr auto;align-items:center;column-gap:16px;row-gap:2px;
+  padding:9px 12px;border:1px solid #e1bb7c75;border-radius:14px;background:#102b2def;
+  box-shadow:0 4px 18px #1d202866; color:#fff0da; min-width:210px; pointer-events:none;
+}
+.harbour-race[hidden] {display:none;}
+.harbour-race strong {grid-column:1; font-size:12px; color:#ffdb9a;}
+.harbour-race output {grid-column:1; font:900 18px/1.12 Nunito,sans-serif;font-variant-numeric:tabular-nums;}
+.harbour-race small {grid-column:1;font-size:10px;color:#cdded7;}
+.harbour-race button {grid-column:2;grid-row:1/4;align-self:stretch;min-height:42px;padding:7px 12px;background:#ffe2a2;color:#193936;border:0;border-radius:9px;font:900 13px/1.1 Nunito,sans-serif;pointer-events:auto;cursor:pointer;}
+.map .map-container {background:radial-gradient(ellipse,#234352,#172e42);}
+.map .map-container .texture {inset:7.142857%;width:85.714286%;height:85.714286%;}
+#harbour-map {position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+#harbour-map-start {position:absolute;transform:translate(-50%,-38%);background:#18332d;color:#ffdf96;border:1px solid #ffdc8a;border-radius:1em;z-index:1001;padding:4px 8px;font:900 11px/1.1 Nunito,sans-serif;cursor:pointer;white-space:nowrap;}
+.map .map-container .player {z-index:1002;}
+@media(max-width:540px) {
+  .drive-pedals {gap:5px;right:calc(7px + env(safe-area-inset-right));}
+  .drive-pedals button {min-width:42px;padding-inline:6px;font-size:12px;}
+}

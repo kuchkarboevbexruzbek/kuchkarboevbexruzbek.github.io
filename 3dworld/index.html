@@ -42,12 +42,20 @@
     
 
     
-  <script type="module" crossorigin src="/3dworld/assets/index-dqk2MRTb.js?v=coastal-driving-1"></script>
+  <script type="module" src="device.js"></script>
+  <script type="module" crossorigin src="/3dworld/assets/index-dqk2MRTb.js?v=boardwalk-1"></script>
   <link rel="modulepreload" crossorigin href="/3dworld/assets/dist-BiW6BJVu.js">
   <link rel="stylesheet" crossorigin href="/3dworld/assets/index-Le56nPbm.css">
-  <link rel="stylesheet" href="driving.css">
+  <link rel="stylesheet" href="driving.css?v=boardwalk-1">
 </head>
 <body>
+    <dialog id="drive-device" class="device-picker" aria-labelledby="drive-device-title">
+        <h1 id="drive-device-title">Qaysi qurilmada o‘ynaysiz?</h1>
+        <div class="device-options">
+            <button type="button" data-device="phone">Telefon<small>Rul yoki giroskop</small></button>
+            <button type="button" data-device="computer">Kompyuter<small>Klaviatura yoki geympad</small></button>
+        </div>
+    </dialog>
 
     <div class="js-fonts-loader fonts-loader">
         <div class="font nunito" data-font="400 20px Nunito"> </div>
@@ -63,11 +71,16 @@
                 <span class="drive-dial" aria-hidden="true"><i class="drive-needle"></i></span>
                 <div><small></small><strong></strong></div>
             </div>
+            <div class="harbour-race" role="group" aria-label="Bandargoh poygasi" hidden>
+                <strong>Bandargoh halqasi</strong><output aria-live="off">Vaqtli poyga</output>
+                <small></small><button type="button">Poygani boshlash</button>
+            </div>
             <div class="drive-speed"><span>Tezlik</span> <strong>0</strong> km/soat</div>
         </div>
         <div class="drive-controls" role="group" aria-label="Mashinani boshqarish" hidden>
             <button class="drive-wheel" type="button" aria-label="Burish uchun rulni aylantiring"><i></i></button>
             <div class="drive-pedals">
+                <button class="drive-reverse" type="button" aria-label="Orqaga yurish">Orqaga</button>
                 <button class="drive-brake" type="button">Tormoz</button>
                 <button class="drive-gas" type="button">Gaz</button>
             </div>
@@ -238,7 +251,7 @@
                                 <p class="text">Xush kelibsiz!</p>
                                 <p class="text">Men <strong>Bexruzbek Kuchkarboev</strong> — <strong>creative developer</strong> va raqamli ijodkorman. Kod, dizayn va sun’iy intellekt bilan interaktiv saytlar va 3D hikoyalar yarataman.</p>
                                 <p class="text">Bu mening interaktiv portfoliom. Mashinani haydab, loyihalarim, xizmatlarim va tajribalarim bilan tanishing.</p>
-                                <p class="text"><a href="https://t.me/kuchkarboev" target="_blank" rel="noreferrer">Loyihangizni Telegramda muhokama qilamiz →</a></p><div class="home-actions"><button class="button js-certificates-trigger">Sertifikatlarni ko‘rish</button></div><p class="text camera-hint">V — orqa kamera va yonbosh ko‘rinishni almashtirish.</p>
+                                <p class="text"><a href="https://t.me/kuchkarboev" target="_blank" rel="noreferrer">Loyihangizni Telegramda muhokama qilamiz →</a></p><div class="home-actions"><button class="button js-certificates-trigger">Sertifikatlarni ko‘rish</button> <button id="harbour-visit" class="button" type="button">Bandargoh trassasiga borish</button></div><p class="text camera-hint">V — orqa kamera va yonbosh ko‘rinishni almashtirish.</p>
                             </div>
                         </div>
 
@@ -246,6 +259,10 @@
                         <div class="js-content content options-content">
                             <div class="content-inner">
                                 <div class="title">Options</div>
+                                <div class="world-preferences">
+                                    <label for="drive-device-change">Qurilma</label>
+                                    <select id="drive-device-change"><option value="phone">Telefon</option><option value="computer">Kompyuter</option></select>
+                                </div>
                                 <div class="world-preferences drive-settings" hidden>
                                     <label for="drive-mode">Boshqaruv</label>
                                     <select id="drive-mode"><option value="wheel">Ekrandagi rul</option><option value="gyro">Giroskop</option></select>
@@ -838,6 +855,8 @@
 
                 <div class="js-map-container map-container">
                     <img class="js-texture texture" loading="lazy">
+                    <canvas id="harbour-map" width="840" height="840" aria-hidden="true"></canvas>
+                    <button id="harbour-map-start" type="button" aria-label="Bandargoh poygasining startiga borish">Bandargoh</button>
                     <div class="js-player player"></div>
                 </div>
             </div>

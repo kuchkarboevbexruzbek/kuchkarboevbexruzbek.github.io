@@ -1,3 +1,4 @@
+import { onDeviceChoice } from './device.js';
 // Use the same terrain mesh and water plane as the vehicle physics.
 export function shorelineSegments(geometry, seaLevel) {
   const vertices = geometry.attributes.position;
@@ -57,11 +58,24 @@ export function setupDriving(game) {
   const hint = compass.querySelector('strong');
   const distance = compass.querySelector('small');
   const segments = shorelineSegments(game.resources.terrainModel.scene.children[0].geometry, game.water.surfaceElevation);
-  const touch = navigator.maxTouchPoints > 0 || matchMedia('(pointer: coarse)').matches;
-  const canDrive = () => game.reveal.step === 2 && game.player.state === 1 &&
+  let device = null;
+  const canDrive = () => device !== null && game.reveal.step === 2 && game.player.state === 1 &&
     game.inputs.checkCategory(game.inputs.actions.get('forward')) &&
     game.menu.state === game.menu.constructor.CLOSED && game.modals.state === game.modals.constructor.CLOSED;
-  if (touch) setupTouch(game, canDrive);
+  const enableTouch = setupTouch(game, canDrive);
+  onDeviceChoice(value => {
+    device = value;
+    const modes = game.inputs.constructor;
+    game.inputs.updateMode(value === 'phone' ? modes.MODE_TOUCH : modes.MODE_MOUSEKEYBOARD);
+    enableTouch(value === 'phone');
+  });
+  let entered = false;
+  game.ticker.events.on('tick', () => {
+    if (!entered && device && game.reveal.step === 0 && game.inputs.actions.has('introStart')) {
+      entered = true;
+      game.inputs.events.trigger('introStart');
+    }
+  }, 11);
   let nextSample = 0, coast;
   game.ticker.events.on('tick', () => {
     hud.hidden = !canDrive();
@@ -90,22 +104,23 @@ function setupTouch(game, canDrive) {
   const panel = document.querySelector('.drive-controls');
   const wheel = panel.querySelector('.drive-wheel');
   const gas = panel.querySelector('.drive-gas');
+  const reverse = panel.querySelector('.drive-reverse');
   const brake = panel.querySelector('.drive-brake');
   const settings = document.querySelector('.drive-settings');
   const select = settings.querySelector('select');
   const notice = settings.querySelector('[role=status]');
-  document.documentElement.classList.add('drive-touch');
-  settings.hidden = false;
+  let enabled = false;
   const clamp = value => Math.max(-1, Math.min(1, value));
   let steering = 0, wheelId = null, lastAngle = 0, rotation = 0;
-  let gasId = null, brakeId = null, neutral = null, gyroActive = false, generation = 0, sensorTimer;
+  let gasId = null, brakeId = null, reverseId = null, neutral = null, gyroActive = false, generation = 0, sensorTimer;
   let active = false;
   const screenAngle = () => screen.orientation?.angle ?? window.orientation ?? 0;
   const modeKey = 'island.steering';
   function remember(value) { try { localStorage.setItem(modeKey,value); } catch {} }
   function reset() {
     steering = rotation = 0;
-    wheelId = gasId = brakeId = neutral = null;
+    wheelId = gasId = brakeId = reverseId = neutral = null;
+    reverse.classList.remove('held');
     wheel.style.setProperty('--turn','0deg');
     gas.classList.remove('held'); brake.classList.remove('held');
   }
@@ -143,7 +158,6 @@ function setupTouch(game, canDrive) {
     } catch { if (attempt === generation) useWheel('Giroskop ishlamadi. Ekrandagi rul yoqildi.'); }
   }
   select.addEventListener('change', () => select.value === 'gyro' ? useGyro(true) : useWheel());
-  try { if (localStorage.getItem(modeKey) === 'gyro') useGyro(false); } catch {}
   settings.querySelector('button').addEventListener('click', async () => {
     try {
       if (!document.fullscreenElement) await document.documentElement.requestFullscreen?.();
@@ -157,7 +171,7 @@ function setupTouch(game, canDrive) {
   };
   function hold(button, start, stop) {
     button.addEventListener('pointerdown', event => {
-      if (!canDrive() || event.button !== 0 || start(event) === false) return;
+      if (!enabled || !canDrive() || event.button !== 0 || start(event) === false) return;
       event.preventDefault(); button.setPointerCapture(event.pointerId);
     });
     for (const name of ['pointerup','pointercancel','lostpointercapture']) button.addEventListener(name,stop);
@@ -180,6 +194,10 @@ function setupTouch(game, canDrive) {
     if (gasId !== null) return false;
     gasId = e.pointerId; gas.classList.add('held');
   }, e => { if (gasId === e.pointerId) { gasId = null; gas.classList.remove('held'); } });
+  hold(reverse, e => {
+    if (reverseId !== null) return false;
+    reverseId = e.pointerId; reverse.classList.add('held');
+  }, e => { if (reverseId === e.pointerId) { reverseId = null; reverse.classList.remove('held'); } });
   hold(brake, e => {
     if (brakeId !== null) return false;
     brakeId = e.pointerId; brake.classList.add('held');
@@ -190,15 +208,30 @@ function setupTouch(game, canDrive) {
   screen.orientation?.addEventListener?.('change',reset);
   // Player reads conventional inputs at priority 1, then vehicle physics consumes these values at 2.
   game.ticker.events.on('tick', () => {
-    const driving = canDrive() && !document.hidden;
+    const driving = enabled && canDrive() && !document.hidden;
     if (active && !driving) reset();
     active = driving; panel.hidden = !driving;
     if (!driving) return;
     if (gyroActive || wheelId !== null) game.player.steering = -steering;
     if (gasId !== null) game.player.accelerating = 1;
+    if (reverseId !== null) {
+      game.player.accelerating = gasId === null ? -1 : 0;
+      game.player.boosting = 0; game.player.boostLatched = false;
+    }
     if (brakeId !== null) {
       game.player.accelerating = game.player.boosting = 0;
       game.player.boostLatched = false; game.player.braking = 1;
     }
   },1);
+  return value => {
+    enabled = value; active = false; reset();
+    settings.hidden = !value; panel.hidden = true;
+    if (value) {
+      try { if (localStorage.getItem(modeKey) === 'gyro') useGyro(false); } catch {}
+    } else {
+      generation++; clearTimeout(sensorTimer);
+      window.removeEventListener('deviceorientation',readSensor);
+      gyroActive = false; wheel.hidden = false; select.value = 'wheel';
+    }
+  };
 }
