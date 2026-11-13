@@ -12,7 +12,7 @@ $$('[data-reel]').forEach(b=>b.addEventListener('click',()=>{const r=reels[b.dat
 $('#close-reel').addEventListener('click',()=>dialog.close());dialog.addEventListener('close',()=>{video.pause();video.removeAttribute('src');video.load();});
 dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}});
 const certificateDialog=$('#certificate-dialog'),certificateImage=$('#certificate-image');
-$$('[data-certificate]').forEach(card=>card.addEventListener('click',()=>{const src=card.dataset.certificate;$('#certificate-title').textContent=card.dataset.certificateTitle;certificateImage.src=src;certificateImage.alt=card.querySelector('img').alt;certificateDialog.showModal();}));
+const openCertificate=card=>{const src=card.dataset.certificate;$('#certificate-title').textContent=card.dataset.certificateTitle;certificateImage.src=src;certificateImage.alt=card.querySelector('img').alt;certificateDialog.showModal();};$$('[data-certificate]').forEach(card=>{card.addEventListener('click',e=>{if(e.target.closest('a'))return;openCertificate(card);});card.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&!e.target.closest('a')){e.preventDefault();openCertificate(card);}});});
 $('#close-certificate').addEventListener('click',()=>certificateDialog.close());certificateDialog.addEventListener('close',()=>{certificateImage.removeAttribute('src');});
 certificateDialog.addEventListener('click',e=>{if(e.target===certificateDialog)certificateDialog.close();});
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
